@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>YiNan's Film</title>
+
+    <!-- Inter font for clean, modern sans-serif typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'sans-serif'],
+                    },
+                    letterSpacing: {
+                        widest: '0.2em',
+                        mega: '0.3em',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Hide scrollbar for Webkit & Firefox */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+
+<body
+    class="bg-white text-zinc-800 font-sans antialiased selection:bg-zinc-100 selection:text-zinc-900 min-h-screen flex flex-col">
+
+    <!-- TOP HEADER -->
+    <header
+        class="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-sm px-8 md:px-16 py-8 flex justify-between items-center text-[11px] tracking-mega uppercase font-light transition-all duration-300">
+        <div class="cursor-pointer font-normal text-zinc-900 hover:text-zinc-400 transition-colors"
+            onclick="loadProject('rock')">
+            YiNan
+        </div>
+        <nav class="flex gap-10">
+            <button id="nav-projects-btn" onclick="loadProject(currentProjectKey)"
+                class="text-zinc-900 font-medium hover:text-zinc-400 transition-colors uppercase">FILM</button>
+            <button id="nav-about-btn" onclick="showAbout()"
+                class="text-zinc-400 hover:text-zinc-900 transition-colors uppercase">About</button>
+        </nav>
+    </header>
+
+    <!-- MAIN LAYOUT CONTAINER -->
+    <div class="flex-1 flex flex-col md:flex-row pt-28 pb-20 px-8 md:px-16 gap-12 md:gap-24">
+
+        <!-- LEFT SIDEBAR NAV -->
+        <aside
+            class="w-full md:w-64 flex-shrink-0 md:sticky md:top-36 md:h-[calc(100vh-11rem)] flex flex-col justify-between pt-4 pb-8 border-b md:border-b-0 border-zinc-100">
+            <ul id="project-list" class="space-y-4 text-[12px] tracking-widest font-light text-zinc-400">
+                <!-- Dynamically rendered via JavaScript -->
+            </ul>
+
+            <div class="hidden md:block text-[10px] tracking-widest text-zinc-300 font-light">
+                &copy; 2026 ALL RIGHTS RESERVED
+            </div>
+        </aside>
+
+        <!-- RIGHT CONTENT AREA -->
+        <main class="flex-1 min-w-0">
+
+            <!-- VIEW 1: GALLERY VIEW (Active by default) -->
+            <div id="gallery-view" class="block">
+                <header class="mb-16">
+                    <h1 id="project-title" class="text-xs md:text-sm tracking-mega uppercase text-zinc-900 font-normal">
+                        <!-- Project title dynamically rendered -->
+                    </h1>
+                </header>
+
+                <div id="gallery-container" class="space-y-64 md:space-y-80">
+                    <!-- Horizontal photo tracks and captions dynamically rendered -->
+                </div>
+            </div>
+
+            <!-- VIEW 2: DEDICATED ABOUT PAGE VIEW -->
+            <div id="about-view" class="hidden min-h-[50vh] max-w-xl">
+                <header class="mb-16">
+                    <h1 class="text-xs md:text-sm tracking-mega text-zinc-900 font-normal">
+                        ABOUT
+                    </h1>
+                </header>
+
+                <div class="space-y-12">
+                    <p class="text-xs md:text-sm leading-relaxed tracking-widest font-light text-zinc-700">
+                        Find me behind the rocks.
+                    </p>
+
+                    <div
+                        class="pt-10 text-[11px] tracking-mega  space-y-3 text-zinc-400 font-light border-t border-zinc-100">
+                        <p><span class="text-zinc-900">Email /</span> yinanhu519@gmail.com</p>
+                        <p><span class="text-zinc-900">Instagram /</span> @OliverForest_</p>
+                        <p><span class="text-zinc-900">Location /</span> Earth</p>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // PORTFOLIO DATA
+        const portfolioData = {
+            <!-- ROCK -->
+            rock: {
+                title: "ROCK",
+                groups: [
+                    {
+                        id: "bleau",
+                        images: [1, 2, 3, 4, 6, 7, 8, 9, 10],
+                        extension: "JPG",
+                        captionTitle: "Bleau",
+                        captionText: "Fontainebleau, France. 2024\n Fujifilm 400"
+                    },
+                    {
+                        id: "lofoton",
+                        images: [1, 2],
+                        extension: "JPG",
+                        captionTitle: "Lofoton",
+                        captionText: "Lofoton, Norway, 2025\n Kodak Gold 200"
+                    },
+                    {
+                        id: "summer_2026",
+                        images: [1, 2, 3, 4, 5, 6, 7],
+                        extension: "JPG",
+                        captionTitle: "50 seconds of summer",
+                        captionText: "Europe, 2026\n Kodak Gold 200 & Kodak Ultramax 400"
+                    }
+                ]
+            },
+            <!-- LIFE -->
+            life: {
+                title: "LIFE",
+                groups: [
+                    {
+                        id: "arnaya",
+                        images: [1],
+                        extension: "jpg",
+                        captionTitle: "潮水摇摇晃晃",
+                        captionText: "Qinhuangdao, China, 2023\n Kodak Gold 200"
+                    },
+                    {
+                        id: "drag_scene",
+                        images: [1, 2, 3, 4, 5, 6],
+                        extension: "jpeg",
+                        captionTitle: "Free, sparkling people in PHAROS",
+                        captionText: "Beijing, China, 2023\n Kodak Gold 200"
+                    },
+                    {
+                        id: "beijing",
+                        images: [1, 2, 3],
+                        extension: "JPG",
+                        captionTitle: "Beijing",
+                        captionText: "Beijing, China, 2023\n Kodak Gold 200"
+                    },
+                    {
+                        id: "helsinki",
+                        images: [1, 2, 3, 4, 5, 6, 7],
+                        extension: "jpeg",
+                        captionTitle: "Helsinki",
+                        captionText: "Helsinki, Finland, 2023\n Kodak Gold 200"
+                    },
+                    {
+                        id: "elf",
+                        images: [1, 2],
+                        extension: "JPG",
+                        captionTitle: "That winter with Flo",
+                        captionText: "Helsinki, Finland, 2025\n Kodak Gold 200"
+                    },
+                    {
+                        id: "stockholm",
+                        images: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+                        extension: "JPG",
+                        captionTitle: "Stockholm Boulder Friends",
+                        captionText: "Stockholm, Sweden, 2025\n Kodak Gold 200"
+                    },
+                    {
+                        id: "shanshan",
+                        images: [1, 2],
+                        extension: "JPG",
+                        captionTitle: "With Shanshan",
+                        captionText: "Helsinki, Finland, 2026\n Kodak Gold 200"
+                    }
+                ]
+            },
+            <!-- FOOTPRINTS -->
+            footprints: {
+                title: "FOOTPRINTS",
+                groups: [
+                    {
+                        id: "ulanqab",
+                        images: [1, 2, 3, 4, 5, 6],
+                        extension: "jpeg",
+                        captionTitle: "Ulanqab",
+                        captionText: "Ulanqab, China, 2023\n Kodak ColorPlus 200"
+                    },
+                    {
+                        id: "ili",
+                        images: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+                        extension: "jpeg",
+                        captionTitle: "Ili",
+                        captionText: "Ili, China, 2023\n Kodak Gold 200 & Kodak Colorplus 200"
+                    },
+                    {
+                        id: "tromso",
+                        images: [1, 2, 3],
+                        extension: "jpeg",
+                        captionTitle: "Tromsø",
+                        captionText: "Tromsø, Norway, 2023\n Kodak Gold 200"
+                    },
+                    {
+                        id: "tenerife",
+                        images: [1, 2, 3, 4, 5, 6],
+                        extension: "jpeg",
+                        captionTitle: "Tenerife",
+                        captionText: "Tenerife, Spain, 2024\n Kodak Gold 200"
+                    },
+                    {
+                        id: "lofoton",
+                        images: [1],
+                        extension: "JPG",
+                        captionTitle: "Lofoton",
+                        captionText: "Lofoton, Norway, 2025\n Kodak Gold 200"
+                    },
+                    {
+                        id: "dolomites",
+                        images: [1, 2, 3, 4, 5],
+                        extension: "JPG",
+                        captionTitle: "Dolomites",
+                        captionText: "Dolomites, Italy, 2026\n Kodak Ultramax 400"
+                    }
+                ]
+            }
+
+        };
+
+        let currentView = 'gallery'; // 'gallery' or 'about'
+        let currentProjectKey = 'rock'; // Default project key
+
+        // RENDER SIDEBAR MENU
+        function renderSidebar() {
+            const listEl = document.getElementById('project-list');
+
+            let html = Object.keys(portfolioData).map(key => {
+                const isSelected = (currentView === 'gallery' && key === currentProjectKey);
+                const bullet = isSelected ? '• ' : '';
+                const activeClass = isSelected ? 'text-zinc-900 font-medium' : 'hover:text-zinc-800 transition-colors';
+                return `
+          <li>
+            <button onclick="loadProject('${key}')" class="uppercase text-left ${activeClass}">
+              ${bullet}${portfolioData[key].title}
+            </button>
+          </li>
+        `;
+            }).join('');
+
+            listEl.innerHTML = html;
+
+            // Sync header button states
+            const navProjectsBtn = document.getElementById('nav-projects-btn');
+            const navAboutBtn = document.getElementById('nav-about-btn');
+
+            if (currentView === 'gallery') {
+                navProjectsBtn.className = "text-zinc-900 font-medium uppercase transition-colors";
+                navAboutBtn.className = "text-zinc-400 hover:text-zinc-900 uppercase transition-colors";
+            } else {
+                navProjectsBtn.className = "text-zinc-400 hover:text-zinc-900 uppercase transition-colors";
+                navAboutBtn.className = "text-zinc-900 font-medium uppercase transition-colors";
+            }
+        }
+
+        // SWITCH TO GALLERY VIEW
+        function loadProject(key) {
+            currentView = 'gallery';
+            currentProjectKey = key || currentProjectKey;
+
+            // Toggle View visibility
+            document.getElementById('gallery-view').classList.remove('hidden');
+            document.getElementById('gallery-view').classList.add('block');
+            document.getElementById('about-view').classList.add('hidden');
+
+            renderSidebar();
+
+            const project = portfolioData[currentProjectKey];
+            document.getElementById('project-title').textContent = project.title;
+
+            const galleryContainer = document.getElementById('gallery-container');
+
+            galleryContainer.innerHTML = [...project.groups].reverse().map((group, groupIdx) => `
+        <div class="space-y-6">
+          <!-- SCROLLABLE ROW WITH UNIFIED HEIGHT (480px) -->
+          <div class="relative group">
+            <div id="scroll-row-${groupIdx}" class="flex gap-6 overflow-x-auto no-scrollbar scroll-smooth pb-2">
+              ${group.images.map((imgSrc, imgIdx) => `
+                <div class="flex-none h-[340px] md:h-[480px] bg-zinc-50 overflow-hidden">
+                  <img 
+                    src="${getImagePath(currentProjectKey, group, imgSrc)}" 
+                    alt="${group.captionTitle} - Photo ${imgIdx + 1}" 
+                    class="h-full w-auto object-cover block transition-opacity duration-300 hover:opacity-95"
+                    onerror="this.onerror=null; this.src='${group.fallbackUrl}';"
+                    loading="lazy"
+                  />
+                </div>
+              `).join('')}
+            </div>
+
+            <!-- PREV / NEXT ARROWS -->
+            <button 
+              onclick="scrollRow('scroll-row-${groupIdx}', -600)"
+              class="hidden md:flex absolute left-4 top-1/2 -translate-y-1/2 w-9 h-9 bg-white/80 backdrop-blur text-zinc-900 items-center justify-center rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200 shadow-sm border border-zinc-100 hover:bg-white"
+              aria-label="Previous photos"
+            >
+              &#8592;
+            </button>
+            <button 
+              onclick="scrollRow('scroll-row-${groupIdx}', 600)"
+              class="hidden md:flex absolute right-4 top-1/2 -translate-y-1/2 w-9 h-9 bg-white/80 backdrop-blur text-zinc-900 items-center justify-center rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200 shadow-sm border border-zinc-100 hover:bg-white"
+              aria-label="Next photos"
+            >
+              &#8594;
+            </button>
+          </div>
+
+          <!-- GROUP CAPTION BELOW ROW -->
+          <div class="max-w-xl space-y-1.5 pt-2">
+            <h3 class="text-[11px] tracking-mega font-normal text-zinc-900">
+              ${group.captionTitle}
+            </h3>
+            <p class="text-[11px] tracking-widest text-zinc-400 leading-relaxed font-light whitespace-pre-line">
+              ${group.captionText}
+            </p>
+          </div>
+        </div>
+      `).join('');
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // SWITCH TO ABOUT VIEW
+        function showAbout() {
+            currentView = 'about';
+
+            // Toggle View visibility
+            document.getElementById('gallery-view').classList.add('hidden');
+            document.getElementById('about-view').classList.remove('hidden');
+            document.getElementById('about-view').classList.add('block');
+
+            renderSidebar();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // SMOOTH BUTTON SCROLL
+        function scrollRow(rowId, distance) {
+            const row = document.getElementById(rowId);
+            if (row) {
+                row.scrollBy({ left: distance, behavior: 'smooth' });
+            }
+        }
+
+        function getImagePath(projectKey, group, image) {
+            if (typeof image === 'string') return image;
+            const extension = group.extensionOverrides?.[image] ?? group.extension;
+            return `images/${projectKey}/${group.id}/${image}.${extension}`;
+        }
+
+        // INITIALIZE PAGE
+        window.addEventListener('DOMContentLoaded', () => {
+            loadProject('rock');
+        });
+
+    </script>
+</body>
+
+</html>
