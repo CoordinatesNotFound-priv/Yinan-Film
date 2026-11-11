@@ -53,7 +53,7 @@
     <header
         class="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-sm px-8 md:px-16 py-8 flex justify-between items-center text-[11px] tracking-mega uppercase font-light transition-all duration-300">
         <div class="cursor-pointer font-normal text-zinc-900 hover:text-zinc-400 transition-colors"
-            onclick="loadProject('rocks')">
+            onclick="loadProject('fingerprints')">
             YiNan
         </div>
         <nav class="flex gap-10">
@@ -105,7 +105,8 @@
 
                 <div class="space-y-12">
                     <p class="text-xs md:text-sm leading-relaxed tracking-widest font-light text-zinc-700">
-                        Find me behind the rocks.
+                        <span class="block">This is an adventure of the flesh.</span>
+                        <span class="block">这是一场肉身的冒险。</span>
                     </p>
 
                     <div
@@ -125,9 +126,9 @@
     <script>
         // PORTFOLIO DATA
         const portfolioData = {
-            <!-- ROCK -->
-            rocks: {
-                title: "ROCKS",
+            <!-- FINGERPRINTS -->
+            fingerprints: {
+                title: "FINGERPRINTS",
                 groups: [
                     {
                         id: "bleau",
@@ -152,9 +153,9 @@
                     }
                 ]
             },
-            <!-- LIFE -->
-            life: {
-                title: "LIFE",
+            <!-- HEART -->
+            heart: {
+                title: "HEART",
                 groups: [
                     {
                         id: "arnaya",
@@ -259,7 +260,7 @@
         };
 
         let currentView = 'gallery'; // 'gallery' or 'about'
-        let currentProjectKey = 'rock'; // Default project key
+        let currentProjectKey = 'fingerprints'; // Default project key
 
         // RENDER SIDEBAR MENU
         function renderSidebar() {
@@ -389,7 +390,7 @@
 
         // INITIALIZE PAGE
         window.addEventListener('DOMContentLoaded', () => {
-            loadProject('rocks');
+            loadProject('fingerprints');
         });
 
     </script>
